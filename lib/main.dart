@@ -1,5 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:twitter_clone_app/firebase_options.dart';
+import 'package:twitter_clone_app/pages/login_page.dart';
+import 'package:twitter_clone_app/services/auth/auth_gate.dart';
+import 'package:twitter_clone_app/services/auth/login_or_register.dart';
 import 'package:twitter_clone_app/themes/dark_mode.dart';
 import 'pages/home_page.dart';
 import 'themes/theme_provider.dart';
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const AuthGate(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
