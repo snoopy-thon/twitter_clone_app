@@ -4,7 +4,12 @@ import 'package:twitter_clone_app/themes/dark_mode.dart';
 import 'pages/home_page.dart';
 import 'themes/theme_provider.dart';
 
-void main() {
+void main() async {
+  // firebase setup
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
