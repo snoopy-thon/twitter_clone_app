@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone_app/components/my_button.dart';
+import 'package:twitter_clone_app/components/my_loading_circle.dart';
 import 'package:twitter_clone_app/components/my_text_field.dart';
+import 'package:twitter_clone_app/pages/register_page.dart';
+import 'package:twitter_clone_app/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  void Function()? onTap;
+  LoginPage({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _auth = AuthService();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
+
+  void login() async {
+    showLoadingCircle(context);
+    try {
+      await _auth.loginEmailPassword(emailController.text, pwController.text);
+      if (mounted) hideLoadingCircle(context);
+    } catch (e) {
+      if (mounted) hideLoadingCircle(context);
+      if (mounted)
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          ),
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              MyButton(
-                text: 'Login',
-                onTap: () {},
-              ),
+              MyButton(text: 'Login', onTap: login),
               const SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: widget.onTap,
                       child: Text(
                         'Register now',
                         style: TextStyle(
