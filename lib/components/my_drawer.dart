@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone_app/components/my_drawer_tile.dart';
 import 'package:twitter_clone_app/pages/settings_page.dart';
+import 'package:twitter_clone_app/services/auth/auth_service.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  MyDrawer({super.key});
+  final _auth = AuthService();
+  void logout() {
+    _auth.logout();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +60,11 @@ class MyDrawer extends StatelessWidget {
                       ),
                     );
                   }),
+              const Spacer(),
               MyDrawerTile(
                 title: 'L O G O U T',
                 icon: Icons.logout,
-                onTap: () {},
+                onTap: logout,
               ),
             ],
           ),
