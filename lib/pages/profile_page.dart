@@ -85,42 +85,41 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           foregroundColor: Theme.of(context).colorScheme.primary,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: ListView(
-            children: [
-              //username handle
-              Center(
-                child: Text(
-                  _isLoading ? '' : '@${user!.username}',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+        body: ListView(
+          children: [
+            //username handle
+            Center(
+              child: Text(
+                _isLoading ? '' : '@${user!.username}',
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+            const SizedBox(height: 25),
+
+            // profile picture
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                padding: const EdgeInsets.all(25),
+                child: Icon(
+                  Icons.person,
+                  size: 72,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              const SizedBox(height: 25),
+            ),
+            const SizedBox(height: 25),
+            // profile states
 
-              // profile picture
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  padding: const EdgeInsets.all(25),
-                  child: Icon(
-                    Icons.person,
-                    size: 72,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              // profile states
+            // follow / unfollow button
 
-              // follow / unfollow button
-
-              // edit bio
-              Row(
+            // edit bio
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -137,9 +136,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              // bio box
-              MyBioBox(text: _isLoading ? '...' : user!.bio),
+            ),
+            const SizedBox(height: 10),
+            // bio box
+            MyBioBox(text: _isLoading ? '...' : user!.bio),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 25, top: 20),
@@ -167,8 +167,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     },
                   )
-              // list of posts from user
-            ],
+            // list of posts from user
+          ],
         ));
   }
 }
