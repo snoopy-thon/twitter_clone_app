@@ -4,9 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:twitter_clone_app/components/my_bio_box.dart';
 import 'package:twitter_clone_app/components/my_input_alert_box.dart';
+import 'package:twitter_clone_app/helper/navigate_pages.dart';
 import 'package:twitter_clone_app/models/user.dart';
 import 'package:twitter_clone_app/services/auth/auth_service.dart';
 import 'package:twitter_clone_app/services/database/database_provider.dart';
+
+import '../components/my_post_tile.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -21,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late final listeningProvider = Provider.of<DatabaseProvider>(context);
   // providers
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
@@ -72,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final allUserPosts = listeningProvider.filterUserPosts(widget.uid);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -135,9 +140,35 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 10),
               // bio box
               MyBioBox(text: _isLoading ? '...' : user!.bio),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 25, top: 20),
+              child: Text(
+                'Post',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+            allUserPosts.isEmpty
+                ? const Center(
+                    child: Text("No posts yet.."),
+                  )
+                : ListView.builder(
+                    itemCount: allUserPosts.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final post = allUserPosts[index];
+                      return MyPostTile(
+                        post: post,
+                        onUserTap: () {},
+                        onPostTap: () => goPostPage(context, post),
+                      );
+                    },
+                  )
               // list of posts from user
             ],
-          ),
         ));
   }
 }
