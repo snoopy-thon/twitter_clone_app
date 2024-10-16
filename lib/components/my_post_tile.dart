@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:twitter_clone_app/services/auth/auth_service.dart';
 
 import '../models/post.dart';
 
@@ -20,6 +21,29 @@ class MyPostTile extends StatefulWidget {
 }
 
 class _MyPostTileState extends State<MyPostTile> {
+  void _showOptions() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.delete),
+                  title: const Text("Delete"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cancel),
+                  title: const Text("Cancel"),
+                  onTap: () {},
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -47,12 +71,21 @@ class _MyPostTileState extends State<MyPostTile> {
                     widget.post.name,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(width: 5),
                   Text(
                     '@${widget.post.username}',
                     style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: _showOptions,
+                    child: Icon(
+                      Icons.more_horiz,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
