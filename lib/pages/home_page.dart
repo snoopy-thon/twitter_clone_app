@@ -77,7 +77,11 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               final post = posts[index];
 
-              return MyPostTile(post: post);
+              return MyPostTile(
+                post: post,
+                onUserTap: () => goUserPage(context, post.uid),
+                onPostTap: () => goPostPage(context, post),
+              );
             });
   }
 }
