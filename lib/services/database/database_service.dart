@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_clone_app/models/user.dart';
 
+import '../../models/post.dart';
 import '../auth/auth_service.dart';
 
 class DatabaseService {
@@ -52,7 +53,57 @@ class DatabaseService {
       print(e);
     }
   }
+
   // POST MESSAGE
+  // - Post a message
+  Future<void> postMessageInFirebase(String message) async {
+    try {
+      String uid = _auth.currentUser!.uid;
+
+      UserProfile? user = await getUserFromFirebase(uid);
+      Post newPost = Post(
+        id: '', // Firebase post id 자동 생성해줌
+        uid: uid,
+        name: user!.name,
+        username: user.username,
+        message: message,
+        timestamp: Timestamp.now(),
+        likeCount: 0,
+        likedBy: [],
+      );
+
+      //convert post object -> map
+      Map<String, dynamic> newPostMap = newPost.toMap();
+
+      // add to firebase
+      await _db.collection("Posts").add(newPostMap);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // - Delete a post
+
+  // - Get all posts
+  Future<List<Post>> getAllPostsFromFirebase() async {
+    try {
+      QuerySnapshot snapshot = await _db
+          // go to collection -> Posts
+          .collection("Posts")
+          // 시간순 정렬
+          .orderBy('timestamp', descending: true)
+          // get this data
+          .get();
+
+      // return as a list of posts
+      return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+    } catch (e) {
+      print("게시물 가져오는 데 오류가 났어요 !${e.toString()}");
+      return [];
+    }
+  }
+
+  // Get individual post
 
   // LIKES
 
