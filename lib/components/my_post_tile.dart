@@ -49,7 +49,7 @@ class _MyPostTileState extends State<MyPostTile> {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 5),
                   Text(
                     '@${widget.post.username}',
                     style: TextStyle(
