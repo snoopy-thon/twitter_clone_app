@@ -15,6 +15,7 @@ class MyBioBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).colorScheme.secondary,
       ),
+      margin: const EdgeInsets.symmetric(horizontal: 25),
       padding: const EdgeInsets.all(25),
       child: Text(
         text.isNotEmpty ? text : "Empty bio..",
