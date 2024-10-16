@@ -28,7 +28,9 @@ class _MyPostTileState extends State<MyPostTile> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+            GestureDetector(
+              onTap: widget.onUserTap,
+              child: Row(
             children: [
               Icon(
                 Icons.person,
@@ -49,6 +51,7 @@ class _MyPostTileState extends State<MyPostTile> {
                 ),
               ),
             ],
+              ),
           ),
           const SizedBox(height: 20),
           Text(
