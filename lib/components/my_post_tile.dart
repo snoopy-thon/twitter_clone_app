@@ -53,8 +53,8 @@ class _MyPostTileState extends State<MyPostTile> {
           const SizedBox(height: 20),
           Text(
             widget.post.message,
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary),
           )
         ],
       ),
