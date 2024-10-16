@@ -5,6 +5,7 @@ import 'package:twitter_clone_app/firebase_options.dart';
 import 'package:twitter_clone_app/pages/login_page.dart';
 import 'package:twitter_clone_app/services/auth/auth_gate.dart';
 import 'package:twitter_clone_app/services/auth/login_or_register.dart';
+import 'package:twitter_clone_app/services/database/database_provider.dart';
 import 'package:twitter_clone_app/themes/dark_mode.dart';
 import 'pages/home_page.dart';
 import 'themes/theme_provider.dart';
@@ -15,10 +16,18 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        // theme provider
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+
+        // database provider
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
