@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
           showDialog(
             context: (context),
             builder: (context) => AlertDialog(
-              title: Text(e.toString()),
+              title: Text('등록 오류 : ${e.toString()}'),
             ),
           );
         }
