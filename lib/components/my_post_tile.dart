@@ -22,17 +22,33 @@ class MyPostTile extends StatefulWidget {
 
 class _MyPostTileState extends State<MyPostTile> {
   void _showOptions() {
+    String currentUid = AuthService().getCurrentUid();
+    final bool isOwnPost = widget.post.uid == currentUid;
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
           return SafeArea(
             child: Wrap(
               children: [
-                ListTile(
-                  leading: const Icon(Icons.delete),
-                  title: const Text("Delete"),
-                  onTap: () {},
-                ),
+                if (isOwnPost)
+                  ListTile(
+                    leading: const Icon(Icons.delete),
+                    title: const Text("Delete"),
+                    onTap: () {},
+                  )
+                else ...[
+                  ListTile(
+                    leading: const Icon(Icons.flag),
+                    title: const Text("Report"),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.block),
+                    title: const Text("Block"),
+                    onTap: () {},
+                  )
+                ],
                 ListTile(
                   leading: const Icon(Icons.cancel),
                   title: const Text("Cancel"),
