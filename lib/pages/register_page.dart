@@ -20,7 +20,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  // access auth & db service
   final _auth = AuthService();
+  final _db = DatabaseService();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -37,6 +39,10 @@ class _RegisterPageState extends State<RegisterPage> {
           pwController.text,
         );
         if (mounted) hideLoadingCircle(context);
+
+        // once registered, create and save user profile in database
+        await _db.saveUserInfoFirebase(
+            name: nameController.text, email: emailController.text);
       } catch (e) {
         if (mounted) hideLoadingCircle(context);
         if (mounted) {
