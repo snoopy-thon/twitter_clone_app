@@ -31,7 +31,8 @@ class _RegisterPageState extends State<RegisterPage> {
     if (pwController.text == confirmController.text) {
       showLoadingCircle(context);
       try {
-        _auth.registerEmailPassword(
+        // trying to register..
+        await _auth.registerEmailPassword(
           emailController.text,
           pwController.text,
         );
