@@ -32,12 +32,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void register() async {
     if (pwController.text == confirmController.text) {
       showLoadingCircle(context);
+
+      // attempt to register new user
       try {
         // trying to register..
         await _auth.registerEmailPassword(
           emailController.text,
           pwController.text,
         );
+
+        // finished loading..
         if (mounted) hideLoadingCircle(context);
 
         // once registered, create and save user profile in database
