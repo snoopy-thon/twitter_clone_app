@@ -115,4 +115,35 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // COMMENTS
+  // postId1: [comment1, comment2, ..],
+  // postId2: [comment1, comment2, ..],
+
+  // comments의 로컬 리스트
+  final Map<String, List<Comment>> _comments = {};
+
+  // 로컬에서 comments get 하기
+  List<Comment> getComments(String postId) => _comments[postId] ?? [];
+
+  // DB에서 해당 포스트의 comments 접근하기
+  Future<void> loadComments(String postId) async {
+    final allComments = await _db.getCommentsFromFirebase(postId);
+
+    _comments[postId] = allComments;
+
+    notifyListeners();
+  }
+
+  // add a comment
+  Future<void> addComment(String postId, message) async {
+    await _db.addCommentInFirebase(postId, message);
+    await loadComments(postId);
+  }
+
+  // delete a comment
+  Future<void> deleteComment(String commentId, postId) async {
+    await _db.deleteCommentInFirebase(commentId);
+    await loadComments(commentId);
+  }
 }
